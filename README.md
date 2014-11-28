@@ -20,8 +20,8 @@ Not implemented yet.
 $ java -jar email_information_energy_extractor-0.1.0-standalone.jar
 
 TODO: currently filenames are hard-coded:
-* input iulian.gar (garbled email format)
-* input iulian.csv (garbled email format)  
+* in iulian.gar (garbled email format)
+* out iulian.csv  
 
 ## Options
 
