@@ -2,11 +2,16 @@
   (:require [clojure.test :refer :all]
             [email-measure.core :refer :all]))
 
+(deftest indent->parenthis-zzz
+  (testing (str "=          Simple hierarchy test           =\n") 
+  (is (= (indent->parenthis (str "a" "\n>b" "\n>>c" "\n>d" "\n>>e" "\nf")) 
+    (str "<a\n" "<b \n" "<c \n" ">d \n" "<e \n" ">>f")))))
+
 ;;==============================================
 (defmacro t
   "General test generator"
   [test-comment question funtion-to-test input expected-output]
-  (list 'deftest (gensym 'funtion-to-test)
+  (list 'deftest (gensym funtion-to-test)
      (list 'testing test-comment
        (list 'is 
          (list question
@@ -18,15 +23,15 @@
    )
 )
 
-;;(defn function-to-test [])
+;;(defn my-function [])
 ;;(defn test-comment [&[args]] (println args))
-;;(macroexpand '(t "comment" = function-to-test "input" "expected output"))
+;;(macroexpand '(t "comment" = my-function "input" "expected output"))
 
 ;;==============================================
-(defn t=
+(defmacro t=
   "Equal test generator"
   [test-comment funtion-to-test input expected-output]
-  (t test-comment = funtion-to-test input expected-output)
+  (list 't test-comment '= funtion-to-test input expected-output)
 )
 
 ;;==============================================
