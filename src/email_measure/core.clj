@@ -62,7 +62,7 @@
     ;; checking current directory
     (println "Current directory:" (System/getProperty "user.dir"))
     ;; measure message parameters and produce results
-    (measure-io "resources/iulian_1.gra" "resources/iulian_1.res")
+    (measure-io "resources/iulian_1.gar" "resources/iulian_1.csv")
     "The End"
   )
 )

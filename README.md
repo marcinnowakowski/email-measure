@@ -1,16 +1,27 @@
-# email_information_energy_extractor
+# email-measure
 
-FIXME: description
+Utility prepared to extract email communication channel properties:
+* number of characters transfered in exchange
+* exchange dispatch time
+
+Data are returned in csv format:
+* party name
+* number of characters transfered in exchange
+* exchange dispatch time
+
+Input should be provided in garbled email format. See more: https://support.google.com/mail/answer/22840?hl=en
 
 ## Installation
 
-Download from http://example.com/FIXME.
+Not implemented yet.
 
 ## Usage
 
-FIXME: explanation
+$ java -jar email_information_energy_extractor-0.1.0-standalone.jar
 
-    $ java -jar email_information_energy_extractor-0.1.0-standalone.jar [args]
+TODO: currently filenames are hard-coded:
+* input iulian.gar (garbled email format)
+* input iulian.csv (garbled email format)  
 
 ## Options
 
@@ -30,7 +41,6 @@ FIXME: listing of options this app accepts.
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright (c) 2014 Marcin Nowakowski <marcin.nowakowski@gazeta.pl>
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under "no" License.
