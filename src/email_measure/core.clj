@@ -6,56 +6,69 @@
 (defn indent->parenthesis
   [s]
   (let [;; << *1*
-    pom_ind->par (fn [acc elem]
+    pom-ind->par (fn [acc elem]
       (let [ ;; << *2*
         acc-lines (first acc)
         acc-indent-count (second acc)
-        get-indent (fn [elem]
-	        (let [;; << *3*
-		        init-section-count (count (re-find  (re-pattern "^[>]*") elem))
-		        ];; *3*
-		        (list init-section-count (subs elem init-section-count))
-	        );; *3* >>
-        ) ;; get-indent
-        elem-indent-count (-> elem get-indent count)
-        compute-parenthis (fn [acc-indent-count elem-indent-count]
-          (let [;; << *3*
-            indent (- acc-indent-count elem-indent-count)
-            ];; *3*
-            (if (> 0 indent)
-              (str (repeat indent ">") )
-              (str (repeat indent "<") )
-            )
-          );; *3* >>
+        elem-indent-count (count (re-find  (re-pattern "^[>]*") elem))
+        indent-count-difference (- acc-indent-count elem-indent-count)
+        compute-parenthis (fn [indent-count-difference]
+          (if (< 0 indent-count-difference)
+            (str/join (repeat indent-count-difference ">"))
+            (str/join (repeat (- 0 indent-count-difference) "<"))
+          )
         ) ;; compute-parenthis
         ] ;; *2*
-        (do (println "<<<<<<<<<<<<<<\n" acc elem "\n>>>>>>>>>>>>>\n")
         (list 
-          (conj 
-            acc-lines 
+          (conj
+            acc-lines
             (str 
-              (compute-parenthis acc-indent-count elem-indent-count) 
-              (do
-              (println "(subs" elem elem-indent-count ")\n")
-              (subs elem elem-indent-count) ) )
-              )
-        )
+              (compute-parenthis indent-count-difference) 
+              (subs elem elem-indent-count)
+            )
+          )
+          elem-indent-count
         )
       );; *2* >>
-    ) ;; pom_ind->par
+    ) ;; pom-ind->par
+    ] ;; *1*
+    (str/join "\n" (reverse (first
+      (reduce 
+        pom-ind->par 
+        (list () 0) 
+        (str/split s #"\n")
+      )
+    )))
+  )  ;; *1* >>
+)
+
+(defn indent->level-map
+  [s]
+  (let [;; << *1*
+    pom-indent->level-map(fn [acc-level-map elem]
+      (let [ ;; << *2*
+        elem-indent-count (count (re-find  (re-pattern "^[>]*") elem))
+        acc-level (get acc-level-map elem-indent-count)
+        trimmed-elem (subs elem elem-indent-count)
+        ] ;; *2*
+        (if acc-level
+          (assoc acc-level-map elem-indent-count (str/join "\n" (list acc-level trimmed-elem)))
+          (assoc acc-level-map elem-indent-count trimmed-elem)
+        )
+      );; *2* >>
+    ) ;; pom-indent->level-map
     ] ;; *1*
     (reduce 
-      pom_ind->par 
-      '(() 0) 
+      pom-indent->level-map 
+      {} 
       (str/split s #"\n")
     )
   )  ;; *1* >>
 )
 
 (defn measure
-  [s]
-  (println "lol")
-  "TODO: not implemented yet"
+  [garbled-email]
+  (indent->level-map garbled-email)
 )
 
 (defn measure-io
