@@ -3,7 +3,7 @@
 
 (require '[clojure.string :as str])
 
-(defn indent->parenthis
+(defn indent->parenthesis
   [s]
   (let [;; << *1*
     pom_ind->par (fn [acc elem]
@@ -29,12 +29,17 @@
           );; *3* >>
         ) ;; compute-parenthis
         ] ;; *2*
+        (do (println "<<<<<<<<<<<<<<\n" acc elem "\n>>>>>>>>>>>>>\n")
         (list 
           (conj 
             acc-lines 
             (str 
               (compute-parenthis acc-indent-count elem-indent-count) 
+              (do
+              (println "(subs" elem elem-indent-count ")\n")
               (subs elem elem-indent-count) ) )
+              )
+        )
         )
       );; *2* >>
     ) ;; pom_ind->par

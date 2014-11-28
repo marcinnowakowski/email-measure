@@ -2,11 +2,6 @@
   (:require [clojure.test :refer :all]
             [email-measure.core :refer :all]))
 
-(deftest indent->parenthis-zzz
-  (testing (str "=          Simple hierarchy test           =\n") 
-  (is (= (indent->parenthis (str "a" "\n>b" "\n>>c" "\n>d" "\n>>e" "\nf")) 
-    (str "<a\n" "<b \n" "<c \n" ">d \n" "<e \n" ">>f")))))
-
 ;;==============================================
 (defmacro t
   "General test generator"
@@ -43,7 +38,7 @@
   "============================================\n"
   )
   
-  indent->parenthis
+  indent->parenthesis
 
   (str
   "a" 
