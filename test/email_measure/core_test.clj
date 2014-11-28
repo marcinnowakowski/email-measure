@@ -30,4 +30,25 @@
 )
 
 ;;==============================================
-(t= "simple hierarchy test" indent-to-parenthis "a \n>b \n>>c \n>d \n>>e \nf" "<a\n <b \n<c \n>d \n<e \n>>f")
+(t= 
+  "simple hierarchy test" 
+  indent->parenthis
+  
+  (str
+  "a" 
+  "\n>b"
+  "\n>>c" 
+  "\n>d" 
+  "\n>>e" 
+  "\nf"
+  )
+  
+  (str
+  "<a\n"
+  "<b \n"
+  "<c \n"
+  ">d \n"
+  "<e \n"
+  ">>f"
+  )
+)

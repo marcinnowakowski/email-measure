@@ -3,10 +3,46 @@
 
 (require '[clojure.string :as str])
 
-(defn indent-to-parenthis
+(defn indent->parenthis
   [s]
-  (str/split s #"\n")
-  )
+  ;; << *1*
+  [pom_ind->par (fn [acc elem]
+    (let [ ;; << *2*
+      acc-lines first(acc)
+      acc-indent-count second(acc)
+      get-indent (fn [elem]
+	      (let [;; << *3*
+		      init-section-count (count (re-find  (re-pattern "^[>]*") elem))
+		      ];; *3*
+		      (list init-section-count (subs elem init-section-count))
+	      );; *3* >>
+      ) ;; get-indent
+      elem-indent-count (-> elem get-indent count)
+      compute-parenthis (fn [acc-indent-count elem-indent-count]
+        (let [;; << *3*
+          indent (- acc-indent-count elem-indent-count)
+          ];; *3*
+        );; *3* >>
+        if (> 0 indent)
+        (str (repeat indent ">") )
+        (str (repeat indent "<") )
+      ) ;; insert-parenthis
+      ];; *2*
+      (list 
+        (conj 
+          acc-lines 
+          (str 
+            (compute-parenthis acc-indent-count elem-indent-count) 
+            (subs elem elem-indent-count) ) )
+    );; *2* >>
+  ) ;; pom_ind->par
+  ] ;; *1* >>
+  (reduce 
+    pom_ind->par 
+    '(() 0) 
+    (str/split s #"\n")
+  ) 
+)
 
 (defn measure
   [s]
